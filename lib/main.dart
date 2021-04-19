@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:planets/screens/landscape_body.dart';
+import 'package:planets/screens/portrait_body.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,78 +17,79 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatefulWidget {
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int ff=1;
+  int id = 1;
+  String message =
+      "Jupiter is the biggest one.\nIt is very windy there. Pretty cool.";
+  String link =
+      "https://assets.stickpng.com/images/580b585b2edbce24c47b270d.png";
+
+  void changeMessage(int newId) {
+    id = newId;
+    if (id == 1) {
+      message =
+          "Jupiter is the biggest one.\nIt is very windy there.\nPretty cool.";
+      link = "https://assets.stickpng.com/images/580b585b2edbce24c47b270d.png";
+    } else if (id == 2) {
+      message = "Saturn is pretty big.\nit has a cool ring around it.";
+      link =
+          "https://upload.wikimedia.org/wikipedia/commons/e/e1/Jupiter_%28transparent%29.png";
+    } else if (id == 3) {
+      message =
+          "Mercury is very hot.temperature\ncan reach 430 degrees.\nAmazing";
+      link = "https://assets.stickpng.com/images/580b585b2edbce24c47b2709.png";
+    }
+
+    setState(() {});
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
+
+
+
+    final appBar = AppBar(
+      title: Center(
+          child: FittedBox(child: Text("Three Planets", style: TextStyle(fontSize: 30)))),
+    );
+
+
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final appBarHeight = appBar.preferredSize.height;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+    final screenOrientation = MediaQuery.of(context).orientation;
+
     return Container(
       child: Scaffold(
-        appBar: AppBar(
-
-
-          title: Center(child: Text("Three Planets" , style: TextStyle(fontSize: 30))),),
-          body: SingleChildScrollView(
-            child: Center(
-
-              child: Container(
-                height: 600,
-                child: Column(
-
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                  children: [
-
-
-
-                    if(ff==1)...[
-                      Container(margin: EdgeInsets.all(15), padding: EdgeInsets.all(15),
-                          color: Colors.blue,child: Text("Saturn is pretty big.\nit has a cool ring around it.", style: TextStyle(color: Colors.white, fontSize: 20),
-                            textAlign: TextAlign.center,))
-                    ]else if(ff==2)...[
-                      Container(margin: EdgeInsets.all(15), padding: EdgeInsets.all(15),
-                          color: Colors.blue,child: Text("Jupiter is the biggest one.\nIt is very windy there. Pretty cool.", style: TextStyle(color: Colors.white, fontSize: 20),
-                            textAlign: TextAlign.center,))
-                    ]else...[
-                      Container(margin: EdgeInsets.all(15), padding: EdgeInsets.all(15),
-                          color: Colors.blue,child: Text("Mercury is very hot.\ntemperature can reach 430 degrees.\nAmazing", style: TextStyle(color: Colors.white, fontSize: 20),
-                            textAlign: TextAlign.center,))
-                    ],
-
-
-                  if(ff==1)...[
-                    Image.network("https://assets.stickpng.com/images/580b585b2edbce24c47b270d.png", height: 300,)
-                  ]else if(ff==2)...[
-                    Image.network("https://upload.wikimedia.org/wikipedia/commons/e/e1/Jupiter_%28transparent%29.png", width: 300,)
-                  ]else...[
-                    Image.network("https://assets.stickpng.com/images/580b585b2edbce24c47b2709.png", width: 300,)
-                  ],
-
-
-                  Container(
-                    margin: EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-
-                        ElevatedButton(onPressed: () {setState(() {ff=1;});}, child: Text("Jupiter", style: TextStyle(fontSize: 20),)),
-                        ElevatedButton(onPressed: () {setState(() {ff=2;});}, child: Text("Saturn", style: TextStyle(fontSize: 20),)),
-                        ElevatedButton(onPressed: () {setState(() {ff=3;});}, child: Text("Mercury", style: TextStyle(fontSize: 20),)),
-
-                      ],
-                    ),
-                  )
-                  ],
-                ),
+        appBar: appBar,
+        body: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              height: screenHeight - appBarHeight - statusBarHeight,
+              width: screenWidth,
+              child: LayoutBuilder(
+                builder: (context, constraints){
+                  if(screenOrientation == Orientation.portrait){
+                    return Portrait();
+                  }else{
+                    return Landscape();
+                  }
+                },
               ),
             ),
           ),
+        ),
       ),
     );
   }
 }
+
+
